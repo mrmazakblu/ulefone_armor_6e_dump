@@ -1,0 +1,19 @@
+on post-fs-data
+    # create basic filesystem structure
+    mkdir /data/misc/stkuv 0777 root system
+    write /data/misc/stkuv/uv_res "0"
+    chmod 0777 /data/misc/stkuv/uv_res
+    chmod 755 /system/bin/stkuv
+
+on init
+    chmod 755 /system/bin/stkuv
+    
+service stkuv /system/bin/stkuv
+	class main
+	user root
+	group system
+	oneshot
+	disabled
+
+on property:persist.service.stk.uv=1
+	start stkuv
